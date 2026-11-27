@@ -85,7 +85,3 @@ Run `terraform destroy` after each practice session.
 
 Load balancers, EC2 instances and interface endpoints are billed while they exist.
 Check current prices and set an AWS budget alert before deploying.
-
-# License
-
-Apache-2.0. See [LICENSE](./LICENSE).
