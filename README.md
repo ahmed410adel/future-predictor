@@ -19,7 +19,7 @@ results in DynamoDB and predictions from Amazon Bedrock (Amazon Nova).
 
 # Architecture diagram
 
-![Architecture](./architecture.png)
+![Architecture](./architecture-diagram.png)
 
 Request path: user, internet-facing ALB, front end, internal ALB, back end.
 The browser uploads the CV straight to S3 with a presigned URL.
