@@ -4,7 +4,17 @@
   "private": true,
   "description": "Web server that renders pages and calls the back end",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "test": "node --test dist/test/placeholder.test.js"
+    "build": "tsc -p tsconfig.json && node scripts/build-client.mjs",
+    "typecheck:client": "tsc -p tsconfig.client.json",
+    "start": "node dist/src/server.js",
+    "test": "node --test \"dist/test/**/*.test.js\""
+  },
+  "dependencies": {
+    "@cvfp/data-models": "*"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.0",
+    "three": "0.185.1",
+    "@types/three": "^0.185.0"
   }
 }

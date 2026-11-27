@@ -1,0 +1,15 @@
+Sara Haddad
+Cloud Security Engineer
+
+Summary
+Security engineer with four years of experience in AWS and penetration testing for web applications.
+
+Experience
+Cloud Security Engineer, Nile Tech, 2022-2026. Ran web application penetration tests, built Go tooling and automated AWS hardening.
+Junior Security Analyst, Delta Systems, 2020-2022. Triage of alerts, vulnerability scanning and reports.
+
+Education
+BSc Computer Science, Cairo University, 2016-2020
+
+Skills
+AWS, Linux, Go, Burp Suite, Terraform, threat modelling, reporting

@@ -12,3 +12,5 @@ coverage/
 *.pem
 deployment/regional-assets/
 .DS_Store
+!.env.example
+source/frontend/public/assets/

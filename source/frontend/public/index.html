@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Future Predictor · See your career 5 years from now</title>
+  <meta name="description" content="Upload your CV and an AI model imagines where your career could be in five years.">
+  <meta name="theme-color" content="#05060F">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/assets/app.js" defer></script>
+</head>
+<body>
+  <canvas id="scene" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+  <a class="skip" href="#predictor">Skip to the uploader</a>
+
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Future Predictor home">
+      <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8B7CFF"/><stop offset="1" stop-color="#22D3EE"/></linearGradient></defs><path d="M16 2 28 9v14L16 30 4 23V9z" fill="none" stroke="url(#lg)" stroke-width="2"/><path d="M16 2v28M4 9l24 14M28 9 4 23" stroke="url(#lg)" stroke-width="1" opacity=".6"/></svg>
+      <span>Future<b>Predictor</b></span>
+    </a>
+    <nav aria-label="Main">
+      <a href="#how">How it works</a>
+      <a href="#privacy">Privacy</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <p class="eyebrow"><span class="dot" aria-hidden="true"></span> AI career forecast</p>
+      <h1 id="hero-title">See your career in <span class="grad" id="target-year">2031</span></h1>
+      <p class="lead">Drop in your CV. An AI model reads where you are today and imagines where the next five years could take you.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#predictor">Upload your CV
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn ghost" href="#how">How it works</a>
+      </div>
+    </section>
+
+    <section id="predictor" class="stage" aria-labelledby="predictor-title" tabindex="-1">
+      <div class="glass tilt panel" id="panel">
+        <h2 id="predictor-title" class="sr-only">CV predictor</h2>
+        <div id="error" class="alert" role="alert" hidden></div>
+
+        <!-- View 1: upload -->
+        <div id="view-upload" class="view">
+          <div id="dropzone" class="dropzone">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4m0 0 4 4m-4-4L8 8"/><path d="M20 16v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3"/></svg>
+            <p class="dz-title">Drag your CV here</p>
+            <p class="muted">PDF, DOCX or TXT · up to 5 MB</p>
+            <input id="file" class="sr-only" type="file" accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain">
+            <button type="button" id="choose" class="btn ghost">Choose a file</button>
+            <p id="file-name" class="file-name" hidden></p>
+          </div>
+          <label class="consent">
+            <input type="checkbox" id="consent">
+            <span>I agree that my CV is stored and analysed by AI to create my prediction. The file, my name and my job title are saved. See <a href="#privacy">Privacy</a>.</span>
+          </label>
+          <button type="button" id="go" class="btn primary wide" disabled>Predict my future</button>
+        </div>
+
+        <!-- View 2: progress -->
+        <div id="view-progress" class="view" hidden>
+          <h3 class="view-title">Looking into the future…</h3>
+          <ol class="steps" id="steps" aria-live="polite">
+            <li data-step="upload">Securing your upload</li>
+            <li data-step="read">Reading your CV</li>
+            <li data-step="think">Asking the AI to forecast</li>
+            <li data-step="render">Building your timeline</li>
+          </ol>
+          <p class="muted small">This usually takes 10 to 30 seconds.</p>
+        </div>
+
+        <!-- View 3: result -->
+        <div id="view-result" class="view" hidden>
+          <p class="eyebrow" id="r-hello"></p>
+          <p class="r-year muted">Your <span id="r-year"></span></p>
+          <h3 class="r-title grad" id="r-title"></h3>
+          <p class="r-headline" id="r-headline"></p>
+          <div class="path" id="r-path" hidden>
+            <span class="chip" id="r-from"></span>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="becomes"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            <span class="chip hot" id="r-to"></span>
+          </div>
+          <p class="r-narrative" id="r-narrative"></p>
+
+          <h4 class="sub">Your road there</h4>
+          <ol class="timeline" id="r-timeline"></ol>
+
+          <div class="cols">
+            <div><h4 class="sub">Skills to grow</h4><ul class="chips" id="r-skills"></ul></div>
+            <div><h4 class="sub">Strengths to keep</h4><ul class="chips" id="r-strengths"></ul></div>
+          </div>
+          <p class="muted small" id="r-confidence"></p>
+          <p class="muted small">This is an AI-written what-if for fun and reflection, not career or hiring advice.</p>
+          <div class="hero-actions">
+            <button type="button" id="again" class="btn primary">Try another CV</button>
+            <button type="button" id="copy" class="btn ghost">Copy summary</button>
+          </div>
+          <p id="copied" class="muted small" role="status"></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="band" aria-labelledby="how-title">
+      <h2 id="how-title">Three steps, no sign-up</h2>
+      <ol class="cards">
+        <li class="glass tilt card"><span class="num">01</span><h3>Upload</h3><p>Your CV goes straight from your browser to a private, encrypted storage bucket.</p></li>
+        <li class="glass tilt card"><span class="num">02</span><h3>Check</h3><p>We confirm it really is a CV and read your name and current title.</p></li>
+        <li class="glass tilt card"><span class="num">03</span><h3>Forecast</h3><p>An Amazon Bedrock model imagines your next five years and draws the road.</p></li>
+      </ol>
+    </section>
+
+    <section id="privacy" class="band" aria-labelledby="privacy-title">
+      <h2 id="privacy-title">What we keep</h2>
+      <div class="glass privacy">
+        <ul>
+          <li><b>Your CV file</b> is stored in a private S3 bucket.</li>
+          <li><b>First name, last name and job title</b> are saved in a database with your prediction.</li>
+          <li>Only the browser that uploaded the CV can open its result. The link alone is not enough.</li>
+          <li>The AI reads your CV text to write the forecast. Do not upload anything you are not comfortable sharing.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><p>Future Predictor · a learning project on AWS · Predictions are fictional.</p></footer>
+  <noscript><p class="noscript">Future Predictor needs JavaScript to upload your CV and draw the 3D scene.</p></noscript>
+</body>
+</html>

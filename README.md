@@ -1,6 +1,6 @@
 **CV Future Predictor** | [Feature request](.github/ISSUE_TEMPLATE/feature_request.md) | [Bug report](.github/ISSUE_TEMPLATE/bug_report.md) | [General question](.github/ISSUE_TEMPLATE/general_question.md)
 
-> **Status:** project skeleton only. It does not deploy any AWS resources yet.
+> **Status:** the front end and back end are built and run locally in mock mode. The Terraform modules are still placeholders, so nothing is deployed to AWS yet.
 
 ## Table of contents
 
@@ -43,6 +43,19 @@ source/
 - Node.js 22 or later
 - Terraform 1.6 or later
 - AWS CLI with a configured profile
+
+## 0. Try it locally (no AWS needed)
+
+```bash
+cd source && npm install && npm run build
+# terminal 1: back end with in-memory S3, DynamoDB and a fake model
+cd backend && USE_MOCKS=true npm start
+# terminal 2: front end on http://localhost:3000
+cd frontend && npm start
+```
+
+Upload `deployment/sample-cv.txt` (or any CV). To use real AWS, fill in the placeholders in
+`source/backend/.env.example` and `source/frontend/.env.example` and set `USE_MOCKS=false`.
 
 ## 1. Install and test
 
